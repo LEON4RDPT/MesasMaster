@@ -9,7 +9,7 @@ namespace WebApi.Controllers.User;
 
 [ApiController]
 [Route("/api/user")]
-public class GetAllUserController(GetAllUsersHandler handler) : ControllerBase
+public class GetAllUsersController(GetAllUsersHandler handler) : ControllerBase
 {
    private readonly GetAllUsersHandler _handler = handler;
 

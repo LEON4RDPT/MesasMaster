@@ -3,7 +3,7 @@ using Infrastructure.Database;
 using Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-using MesaApp.Extensions;
+using WebApi.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 

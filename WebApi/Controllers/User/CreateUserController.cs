@@ -1,5 +1,6 @@
 ﻿using Application.Exceptions.Shared;
 using Application.Exceptions.User;
+using Application.UseCases.UserService.CreateUser;
 using MesaApp.Application.UseCases.UserService.CreateUser;
 using Microsoft.AspNetCore.Mvc;
 
