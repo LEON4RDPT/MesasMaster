@@ -1,13 +1,8 @@
 ﻿namespace Application.Exceptions.Shared
 {
-    public class MissingAttributeException : Exception
+    public class MissingAttributeException(string atributeName)
+        : Exception($"O atributo: {atributeName} está em falta!")
     {
-        public string AtributeName { get; }
-
-        public MissingAttributeException(string atributeName) :
-            base($"O atributo: {atributeName} está em falta!")
-        {
-            AtributeName = atributeName;
-        }
+        public string AtributeName { get; } = atributeName;
     }
 }

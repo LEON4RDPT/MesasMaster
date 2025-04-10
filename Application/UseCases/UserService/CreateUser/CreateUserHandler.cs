@@ -6,15 +6,8 @@ using Core.Interfaces;
 
 namespace MesaApp.Application.UseCases.UserService.CreateUser;
 
-public class CreateUserHandler
+public class CreateUserHandler(IUserRepository userRepository)
 {
-    private readonly IUserRepository _userRepository;
-
-    public CreateUserHandler(IUserRepository userRepository)
-    {
-        _userRepository = userRepository;
-    }
-
     public async Task<CreateUserResponse> Handle(CreateUserRequest request)
     {
         if (string.IsNullOrEmpty(request.Name))
@@ -47,7 +40,7 @@ public class CreateUserHandler
             throw new InvalidAttributeException(nameof(request.Password));
         }
 
-        if (await _userRepository.EmailExistsAsync(request.Email))
+        if (await userRepository.EmailExistsAsync(request.Email))
         {
             throw new EmailAlreadyInUseException(request.Email);
         }
@@ -61,7 +54,7 @@ public class CreateUserHandler
             IsActive = true,
         };
 
-        await _userRepository.AddAsync(user);
+        await userRepository.AddAsync(user);
 
         return new CreateUserResponse
         {

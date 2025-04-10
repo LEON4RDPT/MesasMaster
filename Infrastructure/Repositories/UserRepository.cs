@@ -6,15 +6,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository(AppDbContext context) : IUserRepository
     {
-        private readonly AppDbContext _context;
-
-        public UserRepository(AppDbContext context)
-        {
-            _context = context;
-        }
-            
         public async Task AddAsync(User user)
         {
             if (await EmailExistsAsync(user.Email))
@@ -22,8 +15,8 @@ namespace Infrastructure.Repositories
                 throw new EmailAlreadyInUseException(user.Email);
             }
 
-            await _context.Users.AddAsync(user);
-            await _context.SaveChangesAsync();
+            await context.Users.AddAsync(user);
+            await context.SaveChangesAsync();
         }
 
         public Task DeleteAsync(int id)
@@ -33,12 +26,12 @@ namespace Infrastructure.Repositories
 
         public async Task<bool> EmailExistsAsync(string email)
         {
-            return await _context.Users.AnyAsync(u => u.Email == email);
+            return await context.Users.AnyAsync(u => u.Email == email);
         }
 
-        public Task<IEnumerable<User>> GetAllAsync()
+        public async Task<IEnumerable<User>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await context.Users.ToListAsync();
         }
 
         public User GetByIdAsync(int id)

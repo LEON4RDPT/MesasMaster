@@ -8,9 +8,8 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Database
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
     {
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
         public DbSet<User> Users { get; set; }
 
     }

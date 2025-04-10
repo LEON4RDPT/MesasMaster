@@ -1,4 +1,5 @@
-﻿using MesaApp.Application.UseCases.UserService.CreateUser;
+﻿using Application.UseCases.UserService.GetAllUsers;
+using MesaApp.Application.UseCases.UserService.CreateUser;
 using Core.Interfaces;
 using Infrastructure.Repositories;
 
@@ -10,7 +11,7 @@ namespace MesaApp.Extensions
         {
             // Application-layer use cases
             services.AddScoped<CreateUserHandler>();
-
+            services.AddScoped<GetAllUsersHandler>();
             return services;
         }
 

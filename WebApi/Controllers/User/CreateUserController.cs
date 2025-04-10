@@ -6,23 +6,16 @@ using Microsoft.AspNetCore.Mvc;
 namespace WebApi.Controllers.User
 {
     [ApiController]
-    [Route("api/User")]
+    [Route("api/user")]
 
-    public class CreateUserController : ControllerBase
+    public class CreateUserController(CreateUserHandler handler) : ControllerBase
     {
-        private readonly CreateUserHandler _handler;
-
-        public CreateUserController(CreateUserHandler handler)
-        {
-            _handler = handler;
-        }
-
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CreateUserRequest request)
         {
             try
             {
-                var response = await _handler.Handle(request);
+                var response = await handler.Handle(request);
                 return CreatedAtAction(nameof(Post), new { id = response.Id }, response);
             }
             catch (EmailAlreadyInUseException ex)
