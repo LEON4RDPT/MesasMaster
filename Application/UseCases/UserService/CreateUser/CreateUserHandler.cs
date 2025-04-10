@@ -1,0 +1,75 @@
+﻿using Application.Exceptions.Shared;
+using Application.Exceptions.User;
+using Application.Helpers;
+using Core.Entities;
+using Core.Interfaces;
+
+namespace MesaApp.Application.UseCases.UserService.CreateUser;
+
+public class CreateUserHandler
+{
+    private readonly IUserRepository _userRepository;
+
+    public CreateUserHandler(IUserRepository userRepository)
+    {
+        _userRepository = userRepository;
+    }
+
+    public async Task<CreateUserResponse> Handle(CreateUserRequest request)
+    {
+        if (string.IsNullOrEmpty(request.Name))
+        {
+            throw new MissingAttributeException(nameof(request.Name));
+        }
+
+        if (request.Name.Length < 6)
+        {
+            throw new InvalidAttributeException(nameof(request.Name));
+        }
+
+        if (string.IsNullOrEmpty(request.Email))
+        {
+            throw new MissingAttributeException(nameof(request.Email));
+        }
+
+        if (!EmailValidator.IsValidEmail(request.Email))
+        {
+            throw new InvalidAttributeException(nameof(request.Email));
+        }
+
+        if (string.IsNullOrEmpty(request.Password))
+        {
+            throw new MissingAttributeException(nameof(request.Password));
+        }
+
+        if (request.Name.Length < 6)
+        {
+            throw new InvalidAttributeException(nameof(request.Password));
+        }
+
+        if (await _userRepository.EmailExistsAsync(request.Email))
+        {
+            throw new EmailAlreadyInUseException(request.Email);
+        }
+
+        var user = new User
+        {
+            Name = request.Name,
+            Email = request.Email,
+            Password = request.Password,
+            IsAdmin = false,
+            IsActive = true,
+        };
+
+        await _userRepository.AddAsync(user);
+
+        return new CreateUserResponse
+        {
+            Id = user.Id,
+            Name = user.Name,
+            Password = user.Password,
+            Email = user.Email,
+            IsAdmin = user.IsAdmin
+        };
+    }
+}

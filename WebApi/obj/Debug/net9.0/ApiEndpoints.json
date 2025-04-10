@@ -1,0 +1,18 @@
+[
+  {
+    "ContainingType": "WebApi.Controllers.User.CreateUserController",
+    "Method": "Post",
+    "RelativePath": "api/User",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "MesaApp.Application.UseCases.UserService.CreateUser.CreateUserRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]
